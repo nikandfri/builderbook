@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 
 import Head from 'next/head';
 
+import { getUserApiMethod } from '../lib/api/public.ts';
+
 const propTypes = {
   user: PropTypes.shape({
     displayName: PropTypes.string,
@@ -10,7 +12,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  user: null,
+  user: 'niklas',
 };
 
 const Index = ({ user }) => (
@@ -27,7 +29,12 @@ const Index = ({ user }) => (
   </div>
 );
 
-Index.getInitialProps = async (ctx) => ({ user: ctx.query.user });
+Index.getInitialProps = async (ctx) => {
+  const user = await getUserApiMethod();
+
+  console.log(user);
+  return { user: ctx.query.user };
+};
 
 Index.propTypes = propTypes;
 Index.defaultProps = defaultProps;
